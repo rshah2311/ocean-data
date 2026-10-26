@@ -6,3 +6,9 @@ venv/
 .ipynb_checkpoints/
 .DS_Store
 Thumbs.db
+
+# downloaded data (never committed)
+data/raw/
+
+# built map images for the web atlas (re-create with scripts/build_viz.py)
+viz/web/data/
