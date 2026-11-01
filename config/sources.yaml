@@ -1,0 +1,458 @@
+generated_at: '2026-10-26T15:33:58+00:00'
+datasets:
+- id: C1
+  title: WOA23 temperature, 1 deg
+  source: NOAA NCEI World Ocean Atlas 2023
+  listing: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/
+  auth: null
+  expected_files: 17
+  missing_on_server: []
+  files:
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t00_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t00_01.nc
+    bytes: 81653508
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t01_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t01_01.nc
+    bytes: 59792653
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t02_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t02_01.nc
+    bytes: 60062561
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t03_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t03_01.nc
+    bytes: 60343252
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t04_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t04_01.nc
+    bytes: 60698165
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t05_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t05_01.nc
+    bytes: 60453754
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t06_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t06_01.nc
+    bytes: 60005363
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t07_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t07_01.nc
+    bytes: 60524477
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t08_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t08_01.nc
+    bytes: 61080935
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t09_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t09_01.nc
+    bytes: 61049072
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t10_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t10_01.nc
+    bytes: 60464254
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t11_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t11_01.nc
+    bytes: 59842150
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t12_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t12_01.nc
+    bytes: 59949227
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t13_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t13_01.nc
+    bytes: 84666401
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t14_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t14_01.nc
+    bytes: 85184374
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t15_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t15_01.nc
+    bytes: 85497049
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/temperature/netcdf/decav91C0/1.00/woa23_decav91C0_t16_01.nc
+    local_path: data/raw/woa23/temperature/1.00/woa23_decav91C0_t16_01.nc
+    bytes: 84689314
+    size_source: http
+  phase: 1
+  file_count: 17
+  total_bytes: 1145956509
+  unsized_files: 0
+- id: C2
+  title: WOA23 salinity, 1 deg
+  source: NOAA NCEI World Ocean Atlas 2023
+  listing: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/
+  auth: null
+  expected_files: 17
+  missing_on_server: []
+  files:
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s00_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s00_01.nc
+    bytes: 74571894
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s01_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s01_01.nc
+    bytes: 53303157
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s02_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s02_01.nc
+    bytes: 53248331
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s03_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s03_01.nc
+    bytes: 53508205
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s04_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s04_01.nc
+    bytes: 53878135
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s05_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s05_01.nc
+    bytes: 53639802
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s06_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s06_01.nc
+    bytes: 53268513
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s07_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s07_01.nc
+    bytes: 53733442
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s08_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s08_01.nc
+    bytes: 54329545
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s09_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s09_01.nc
+    bytes: 54440756
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s10_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s10_01.nc
+    bytes: 53950616
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s11_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s11_01.nc
+    bytes: 53267734
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s12_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s12_01.nc
+    bytes: 53355047
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s13_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s13_01.nc
+    bytes: 75479025
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s14_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s14_01.nc
+    bytes: 75888665
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s15_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s15_01.nc
+    bytes: 76173548
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/salinity/netcdf/decav91C0/1.00/woa23_decav91C0_s16_01.nc
+    local_path: data/raw/woa23/salinity/1.00/woa23_decav91C0_s16_01.nc
+    bytes: 75557230
+    size_source: http
+  phase: 1
+  file_count: 17
+  total_bytes: 1021593645
+  unsized_files: 0
+- id: C3+C4
+  title: GEBCO_2026 grid (elevation) + TID grid
+  source: GEBCO Compilation Group, hosted at CEDA
+  auth: null
+  expected_files: 2
+  missing_on_server: []
+  files:
+  - url: https://dap.ceda.ac.uk/bodc/gebco/global/gebco_2026/ice_surface_elevation/netcdf/GEBCO_2026.zip?download=1
+    local_path: data/raw/gebco_2026/GEBCO_2026.zip
+    unzipped_gb_published: 7.0
+    bytes: 4252016343
+    size_source: http
+  - url: https://dap.ceda.ac.uk/bodc/gebco/global/gebco_2026/type_identifier_grid/netcdf/gebco_2026_tid.zip?download=1
+    local_path: data/raw/gebco_2026/gebco_2026_tid.zip
+    unzipped_gb_published: 3.5
+    bytes: 98994297
+    size_source: http
+  notes: Zips. Unzipped size adds ~10.5 GB. Ice-surface version of the grid (GEBCO also publishes a sub-ice version; not pulled).
+  phase: 2
+  file_count: 2
+  total_bytes: 4351010640
+  unsized_files: 0
+- id: S5
+  title: 'MODIS-Aqua L3m chlor_a 4 km: 12 monthly + mission climatology'
+  source: NASA OB.DAAC via Earthdata Cloud
+  auth: earthdata (~/.netrc)
+  expected_files: 13
+  missing_on_server: []
+  files:
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20020704_20251130.L3m.CU.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20020704_20251130.L3m.CU.CHL.chlor_a.4km.nc
+    bytes: 63252822
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20030101_20260131.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20030101_20260131.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 57492895
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20030201_20260228.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20030201_20260228.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 59474436
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20030301_20260331.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20030301_20260331.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 60513900
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20030401_20260430.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20030401_20260430.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 56980518
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20030501_20250531.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20030501_20250531.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 53505319
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20030601_20250630.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20030601_20250630.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 49802285
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20020701_20250731.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20020701_20250731.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 52391702
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20020801_20250831.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20020801_20250831.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 59693779
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20020901_20250930.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20020901_20250930.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 59200242
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20021001_20251031.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20021001_20251031.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 57355368
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20021101_20251130.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20021101_20251130.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 58926584
+    size_source: CMR granule_size (approx.)
+  - url: https://obdaac-tea.earthdatacloud.nasa.gov/ob-cumulus-prod-public/AQUA_MODIS.20021201_20251231.L3m.MC.CHL.chlor_a.4km.nc
+    local_path: data/raw/oceancolor_chl/AQUA_MODIS.20021201_20251231.L3m.MC.CHL.chlor_a.4km.nc
+    bytes: 56244242
+    size_source: CMR granule_size (approx.)
+  notes: OB.DAAC has no separate 'annual climatology'; the CU (cumulative, whole-mission) composite is used for it. Each month
+    has several yearly re-issues; the newest is picked.
+  phase: 7
+  file_count: 13
+  total_bytes: 744834092
+  unsized_files: 0
+- id: O1
+  title: ETOPO 2022 60 arc-sec surface elevation (optional)
+  source: NOAA NCEI
+  auth: null
+  optional: true
+  expected_files: 1
+  missing_on_server: []
+  files:
+  - url: https://www.ngdc.noaa.gov/thredds/fileServer/global/ETOPO2022/60s/60s_surface_elev_netcdf/ETOPO_2022_v1_60s_N90W180_surface.nc
+    local_path: data/raw/etopo_2022/ETOPO_2022_v1_60s_N90W180_surface.nc
+    bytes: 478290125
+    size_source: http
+  phase: 8
+  file_count: 1
+  total_bytes: 478290125
+  unsized_files: 0
+- id: S4
+  title: WOA23 dissolved oxygen, 1 deg
+  source: NOAA NCEI World Ocean Atlas 2023
+  listing: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/
+  auth: null
+  expected_files: 17
+  missing_on_server: []
+  files:
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o00_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o00_01.nc
+    bytes: 74838932
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o01_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o01_01.nc
+    bytes: 35008324
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o02_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o02_01.nc
+    bytes: 35746031
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o03_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o03_01.nc
+    bytes: 35816551
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o04_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o04_01.nc
+    bytes: 35484549
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o05_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o05_01.nc
+    bytes: 35101882
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o06_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o06_01.nc
+    bytes: 34672050
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o07_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o07_01.nc
+    bytes: 35011984
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o08_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o08_01.nc
+    bytes: 35626962
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o09_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o09_01.nc
+    bytes: 35042683
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o10_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o10_01.nc
+    bytes: 34385513
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o11_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o11_01.nc
+    bytes: 34048916
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o12_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o12_01.nc
+    bytes: 33783150
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o13_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o13_01.nc
+    bytes: 43020698
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o14_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o14_01.nc
+    bytes: 42352864
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o15_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o15_01.nc
+    bytes: 42042922
+    size_source: http
+  - url: https://www.ncei.noaa.gov/data/oceans/woa/WOA23/DATA/oxygen/netcdf/all/1.00/woa23_all_o16_01.nc
+    local_path: data/raw/woa23/oxygen/1.00/woa23_all_o16_01.nc
+    bytes: 40998845
+    size_source: http
+  phase: 4
+  file_count: 17
+  total_bytes: 662982856
+  unsized_files: 0
+- id: S2+S3
+  title: 'GLORYS12V1 monthly means: thetao, so, uo, vo'
+  source: Copernicus Marine GLOBAL_MULTIYEAR_PHY_001_030
+  dataset_id: cmems_mod_glo_phy_my_0.083deg_P1M-m
+  auth: copernicus marine
+  expected_files: 3
+  missing_on_server: []
+  grid:
+    nlat: 2041
+    nlon: 4320
+    lat:
+    - -80.0
+    - 90.0
+    lon:
+    - -180.0
+    - 179.9166717529297
+  available_time:
+  - 1993-01
+  - 2026-08
+  files:
+  - url: copernicusmarine://cmems_mod_glo_phy_my_0.083deg_P1M-m
+    local_path: data/raw/glorys12/glorys12_monthly_2024.nc
+    subset:
+      start: '2024-09-01'
+      end: '2024-12-01'
+      variables: &id001
+      - thetao
+      - so
+      - uo
+      - vo
+      depths_m:
+      - 0.494
+      - 9.573
+      - 25.211
+      - 47.374
+      - 92.326
+      - 186.126
+      - 318.127
+      - 541.089
+      - 1062.44
+    bytes: 2539330560
+    size_source: estimate, uncompressed int16 (matches toolbox dry run)
+  - url: copernicusmarine://cmems_mod_glo_phy_my_0.083deg_P1M-m
+    local_path: data/raw/glorys12/glorys12_monthly_2025.nc
+    subset:
+      start: '2025-01-01'
+      end: '2025-12-01'
+      variables: *id001
+      depths_m:
+      - 0.494
+      - 9.573
+      - 25.211
+      - 47.374
+      - 92.326
+      - 186.126
+      - 318.127
+      - 541.089
+      - 1062.44
+    bytes: 7617991680
+    size_source: estimate, uncompressed int16 (matches toolbox dry run)
+  - url: copernicusmarine://cmems_mod_glo_phy_my_0.083deg_P1M-m
+    local_path: data/raw/glorys12/glorys12_monthly_2026.nc
+    subset:
+      start: '2026-01-01'
+      end: '2026-08-01'
+      variables: *id001
+      depths_m:
+      - 0.494
+      - 9.573
+      - 25.211
+      - 47.374
+      - 92.326
+      - 186.126
+      - 318.127
+      - 541.089
+      - 1062.44
+    bytes: 5078661120
+    size_source: estimate, uncompressed int16 (matches toolbox dry run)
+  notes: Sizes are uncompressed estimates; files are written compressed (~40% of this). Network transfer is ~11x the uncompressed
+    size (server chunks span many depths).
+  phase: 5
+  file_count: 3
+  total_bytes: 15235983360
+  unsized_files: 0
+- id: S1
+  title: OISST v2.1 daily SST, 0.25 deg
+  source: NOAA PSL
+  listing: https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/
+  auth: null
+  expected_files: 4
+  missing_on_server: []
+  files:
+  - url: https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2024.nc
+    local_path: data/raw/oisst_v2.1/sst.day.mean.2024.nc
+    bytes: 470666620
+    size_source: http
+  - url: https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2025.nc
+    local_path: data/raw/oisst_v2.1/sst.day.mean.2025.nc
+    bytes: 474901771
+    size_source: http
+  - url: https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2026.nc
+    local_path: data/raw/oisst_v2.1/sst.day.mean.2026.nc
+    bytes: 386740835
+    size_source: http
+  - url: https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/lsmask.oisst.nc
+    local_path: data/raw/oisst_v2.1/lsmask.oisst.nc
+    bytes: 4157776
+    size_source: http
+  notes: 2026 file is partial (still being updated daily).
+  phase: 6
+  file_count: 4
+  total_bytes: 1336467002
+  unsized_files: 0

@@ -6,12 +6,16 @@ This repo **gathers** data only: no analysis or derived fields.
 
 ## Status
 
+All gathering is complete. Final scope differs from the original plan: WOA23 0.25° (Phase 3) is
+not pulled, GLORYS covers only the last 24 months, and OISST only 2024 onward. These are permanent
+decisions, not pending work.
+
 | Phase | Dataset | Status |
 |---|---|---|
 | 0 | Dry run (`config/sources.yaml`) | done |
 | 1 | C1/C2 WOA23 temperature + salinity, 1° | done, 34 files ok |
 | 2 | C3/C4 GEBCO_2026 grid + TID | done, all ok |
-| 3 | C1/C2 WOA23 temperature + salinity, 0.25° (~22 GB) | skipped for now |
+| 3 | C1/C2 WOA23 temperature + salinity, 0.25° | out of scope (not pulled) |
 | 4 | S4 WOA23 oxygen, 1° | done, 17 files ok |
 | 5 | S2/S3 GLORYS12 monthly, last 24 months (2024-09 → 2026-08) | done, 3 files ok (5.3 GB) |
 | 6 | S1 OISST daily, 2024 → 2026-10-24 + land mask | done, 4 files ok |
@@ -61,8 +65,7 @@ Control blocks the DLLs in the newest releases; the older ones load fine.
 
 `download.py` resumes partial files (`*.part`), retries with backoff, skips files
 already on disk at the right size, records SHA-256, and unzips zips next to the zip.
-It runs at most 4 downloads per host at once. Dataset ids: `C1 C2` (1°), `C1q C2q`
-(0.25°), `C3+C4`, `S4`, `S1`, `S5`, `O1`. GLORYS (`S2+S3`) has its own script:
+It runs at most 4 downloads per host at once. Dataset ids: `C1 C2`, `C3+C4`, `S4`, `S1`, `S5`, `O1`. GLORYS (`S2+S3`) has its own script:
 
 ```bash
 .venv/Scripts/copernicusmarine login                  # once, stores credentials in ~/.copernicusmarine
@@ -95,7 +98,7 @@ It runs at most 4 downloads per host at once. Dataset ids: `C1 C2` (1°), `C1q C
 - Product `GLOBAL_MULTIYEAR_PHY_001_030`, dataset `cmems_mod_glo_phy_my_0.083deg_P1M-m`
   (1/12°, 2041 × 4320, lat −80 to 90, lon −180 to 180; available 1993-01 → 2026-08).
 - Variables `thetao` (°C), `so` (1e-3), `uo`, `vo` (m/s).
-- **Time window: last 24 months, 2024-09 → 2026-08** (cut from the plan's 10 years, chosen in Phase 5).
+- **Time window: last 24 months, 2024-09 → 2026-08** (final scope; the plan's 10 years were dropped).
 - Depths: the levels nearest 0, 10, 25, 50, 100, 200, 300, 500, 1000 m, i.e.
   0.494, 9.573, 25.21, 47.37, 92.33, 186.1, 318.1, 541.1, 1062.4 m.
 - Files: `glorys12_monthly_<year>.nc`, one per calendar year (2024 = Sep–Dec, 2026 = Jan–Aug).
@@ -107,8 +110,7 @@ It runs at most 4 downloads per host at once. Dataset ids: `C1 C2` (1°), `C1q C
 
 ### S1: OISST v2.1 daily sea surface temperature (NOAA PSL)
 - Source: `https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/`
-- Files: `sst.day.mean.<year>.nc` for **2024, 2025, 2026** (cut from the plan's 1991 start, chosen in
-  Phase 6), plus `lsmask.oisst.nc` (land–sea mask).
+- Files: `sst.day.mean.<year>.nc` for **2024, 2025, 2026** (final scope; the plan's 1991 start was dropped), plus `lsmask.oisst.nc` (land–sea mask).
 - 0.25° grid, 720 × 1440, daily. `sst` in °C, surface only. Blends satellite, ship, buoy and Argo data with no gaps.
 - 2024 = 366 days, 2025 = 365. **2026 is partial** (297 days, to 2026-10-24 when downloaded); NOAA updates it daily,
   so re-running `download.py S1` after `list_sources.py S1` refreshes it (its size changes).
