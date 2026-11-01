@@ -1,0 +1,617 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ocean Data Atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: chart-room instrument. Layer list on the left, the map is the page, controls sit under the map like a plotter's bed. */
+:root {
+  --bg: #eef3f3;
+  --panel: #fbfdfd;
+  --ink: #0f2229;
+  --ink-2: #44585f;
+  --muted: #6f8389;
+  --line: #d3dee0;
+  --accent: #0b6782;
+  --accent-soft: #d8ecf1;
+  --land: #c8cfca;
+  --grat: rgba(15, 34, 41, 0.14);
+  --tip-bg: rgba(251, 253, 253, 0.96);
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #091215; --panel: #0f1b1f; --ink: #e2edef; --ink-2: #a9bcc1; --muted: #75898e;
+    --line: #213238; --accent: #5ec3dd; --accent-soft: #123441; --land: #263236;
+    --grat: rgba(226, 237, 239, 0.12); --tip-bg: rgba(15, 27, 31, 0.96); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #091215; --panel: #0f1b1f; --ink: #e2edef; --ink-2: #a9bcc1; --muted: #75898e;
+  --line: #213238; --accent: #5ec3dd; --accent-soft: #123441; --land: #263236;
+  --grat: rgba(226, 237, 239, 0.12); --tip-bg: rgba(15, 27, 31, 0.96); color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 12px; box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+[hidden] { display: none !important; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.app { height: 100%; display: grid; grid-template-columns: 290px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 12px 16px; }
+header { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: 0.01em; margin: 0; text-wrap: balance; }
+.built { font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+
+aside { min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; padding-right: 4px; }
+.group h2 { font-family: var(--font-display); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 6px; }
+.layers { display: flex; flex-direction: column; gap: 2px; }
+.layer-btn { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 2px 8px; text-align: left; border: 1px solid transparent; background: none; border-radius: 6px; padding: 7px 10px; cursor: pointer; }
+.layer-btn:hover { background: var(--accent-soft); }
+.layer-btn[aria-pressed="true"] { background: var(--panel); border-color: var(--line); box-shadow: inset 3px 0 0 var(--accent); }
+.layer-btn .t { font-weight: 500; }
+.layer-btn .r { font-family: var(--font-data); font-size: 11px; color: var(--muted); }
+.layer-btn .s { grid-column: 1 / -1; font-size: 12px; color: var(--ink-2); }
+
+.about { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.about h3 { font-family: var(--font-display); font-weight: 600; font-size: 16px; margin: 0 0 8px; }
+.about dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; font-size: 13px; }
+.about dt { color: var(--muted); font-family: var(--font-display); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 1px; }
+.about dd { margin: 0; color: var(--ink-2); min-width: 0; }
+.note { margin: 10px 0 0; font-size: 12px; color: var(--ink-2); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+main { min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 10px; }
+.map-wrap { position: relative; min-height: 260px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: var(--land); touch-action: none; cursor: grab; }
+.map-wrap.dragging { cursor: grabbing; }
+.map-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.zoom { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.zoom button { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--line); background: var(--tip-bg); cursor: pointer; font-family: var(--font-data); font-size: 16px; line-height: 1; }
+.zoom button:hover { border-color: var(--accent); }
+.status { position: absolute; left: 10px; top: 10px; font-family: var(--font-data); font-size: 12px; background: var(--tip-bg); border: 1px solid var(--line); border-radius: 4px; padding: 3px 8px; color: var(--ink-2); }
+.tip { position: absolute; pointer-events: none; background: var(--tip-bg); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; font-size: 12px; min-width: 150px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+.tip .v { font-family: var(--font-data); font-size: 15px; font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+.tip .c { font-family: var(--font-data); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 340px); gap: 10px 24px; align-items: end; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+.ctl-label { font-family: var(--font-display); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; display: flex; justify-content: space-between; gap: 8px; }
+.ctl-label output { font-family: var(--font-data); text-transform: none; letter-spacing: 0; color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+.left-ctl { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { border: 1px solid var(--line); background: none; border-radius: 999px; padding: 2px 10px; font-family: var(--font-data); font-size: 12px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--panel); }
+.time-row { display: flex; align-items: center; gap: 10px; }
+.play { width: 32px; height: 28px; flex: none; border: 1px solid var(--line); border-radius: 6px; background: none; cursor: pointer; display: grid; place-items: center; }
+.play:hover { border-color: var(--accent); }
+.play svg { width: 12px; height: 12px; fill: var(--ink); }
+input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); }
+.legend canvas { width: 100%; height: 14px; display: block; border-radius: 3px; }
+.ticks { position: relative; height: 18px; font-family: var(--font-data); font-size: 11px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ticks span { position: absolute; top: 3px; transform: translateX(-50%); white-space: nowrap; }
+.ticks span::before { content: ""; position: absolute; left: 50%; top: -4px; height: 3px; border-left: 1px solid var(--muted); }
+.ticks span.first { transform: none; } .ticks span.first::before { left: 0; }
+.ticks span.last { transform: translateX(-100%); } .ticks span.last::before { left: 100%; }
+.toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); }
+.err { padding: 24px; color: var(--ink-2); }
+
+@media (max-width: 760px) {
+  .app { height: auto; min-height: 100%; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
+  aside { overflow: visible; padding-right: 0; order: 2; }
+  .layers { flex-direction: row; flex-wrap: wrap; }
+  .layer-btn { grid-template-columns: auto; }
+  .layer-btn .s, .layer-btn .r { display: none; }
+  main { order: 1; grid-template-rows: auto auto; }
+  .map-wrap { height: 58vh; }
+  .controls { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="app">
+  <header>
+    <h1>Ocean Data Atlas</h1>
+    <span class="built" id="built">Loading data…</span>
+  </header>
+  <aside id="sidebar" aria-label="Layers"></aside>
+  <main>
+    <div class="map-wrap" id="mapWrap">
+      <canvas id="map" aria-label="Map of the selected ocean layer. Drag to pan, scroll to zoom, hover for values."></canvas>
+      <canvas id="flow" aria-hidden="true"></canvas>
+      <div class="status" id="status" hidden>Loading…</div>
+      <div class="zoom">
+        <button id="zin" aria-label="Zoom in" title="Zoom in">+</button>
+        <button id="zout" aria-label="Zoom out" title="Zoom out">−</button>
+        <button id="zreset" aria-label="Show whole world" title="Show whole world" style="font-size:12px">⤢</button>
+      </div>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+    <div class="controls">
+      <div class="left-ctl">
+        <div id="depthBox">
+          <div class="ctl-label"><span>Depth</span><output id="depthOut"></output></div>
+          <div class="chips" id="depths"></div>
+        </div>
+        <div id="timeBox">
+          <div class="ctl-label"><span id="timeTitle">Time</span><output id="timeOut"></output></div>
+          <div class="time-row">
+            <button class="play" id="play" aria-label="Play"><svg viewBox="0 0 12 12" id="playIcon"><path d="M2 1l9 5-9 5z"/></svg></button>
+            <input type="range" id="time" min="0" max="0" value="0" aria-label="Time step">
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="ctl-label"><span id="legendTitle">Legend</span><label class="toggle" id="flowToggle" hidden><input type="checkbox" id="flowOn"> Animate flow</label></div>
+        <canvas id="legend" width="512" height="1"></canvas>
+        <div class="ticks" id="ticks"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+"use strict";
+// ---------- colour ramps (monotone lightness; no rainbows) ----------
+const RAMPS = {
+  thermal: ["#042333", "#2c3395", "#744992", "#b15f82", "#eb7655", "#fbb43d", "#e8fa5b"],
+  haline:  ["#2a186c", "#14439c", "#206e8b", "#3d9387", "#5ab978", "#aad85c", "#fdef9a"],
+  oxygen:  ["#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"],
+  algae:   ["#0b1d4a", "#14537a", "#178a87", "#4fb26a", "#b8d64a", "#f4f2a0"],
+  speed:   ["#0d1b2a", "#1b3a5c", "#225f86", "#2c8aa6", "#59b6bf", "#a7dfd3"],
+  ocean:   ["#0a1a3a", "#123a6b", "#1f5f99", "#3f8dc2", "#7fbedd", "#c6e6ef"],
+  land:    ["#a9b48f", "#9a8d68", "#86735a", "#b9b0a5", "#f2f0ec"],
+  mapped:  ["#fbf0d9", "#f6cf8a", "#e9a144", "#c76f1d", "#8d4513", "#4f260c"],
+  diff:    ["#1d4a8f", "#4f7fc0", "#9db7da", "#d6d7d5", "#e6b089", "#cc7436", "#8f3f0c"], // GEBCO lower ← agree → GEBCO higher
+};
+const TICKS = {
+  thermal: [0, 5, 10, 15, 20, 25, 30], haline: [30, 32, 34, 36, 38], oxygen: [0, 100, 200, 300, 400],
+  algae: [0.01, 0.1, 1, 10, 100], speed: [0, 0.1, 0.25, 0.5, 1, 1.5],
+  relief: [-8000, -4000, -2000, -500, 0, 2000, 6000], mapped: [0, 0.25, 0.5, 0.75, 1],
+  diff: [-500, -100, -20, 0, 20, 100, 500],
+};
+const SPEED_MAX = 1.5;
+const hexRgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+function ramp(name, t) {
+  const s = RAMPS[name].map(hexRgb), x = Math.min(Math.max(t, 0), 1) * (s.length - 1);
+  const i = Math.min(Math.floor(x), s.length - 2), f = x - i;
+  return s[i].map((c, j) => Math.round(c + (s[i + 1][j] - c) * f));
+}
+
+// ---------- encoding (mirror of scripts/build_viz.py encode()) ----------
+function decode(k, e) {
+  if (!k) return NaN;
+  const u = (k - 1) / 254;
+  switch (e.type) {
+    case "linear": return e.min + u * (e.max - e.min);
+    case "log": return 10 ** (Math.log10(e.min) + u * (Math.log10(e.max) - Math.log10(e.min)));
+    case "ssqrt": { const s = (u - 0.5) * 2; return Math.sign(s) * s * s * e.max; }
+    case "elev": return k <= 200 ? e.min * (1 - (k - 1) / 199) ** 2 : e.max * ((k - 200) / 55) ** 2;
+  }
+}
+function legendPos(v, e) { // 0..1 along the legend bar, which is laid out in encoded space
+  switch (e.type) {
+    case "linear": return (v - e.min) / (e.max - e.min);
+    case "log": return (Math.log10(v) - Math.log10(e.min)) / (Math.log10(e.max) - Math.log10(e.min));
+    case "speed": return Math.sqrt(v / SPEED_MAX);
+    case "ssqrt": return 0.5 + 0.5 * Math.sign(v) * Math.sqrt(Math.abs(v) / e.max);
+    case "elev": return v <= 0 ? (1 - Math.sqrt(-v / -e.min)) * 199 / 254 : (199 + Math.sqrt(v / e.max) * 55) / 254;
+  }
+}
+function lutFor(cmap) { // 256 RGBA entries, k=0 transparent
+  const lut = new Uint8ClampedArray(256 * 4);
+  for (let k = 1; k < 256; k++) {
+    let c;
+    if (cmap === "relief") c = k <= 200 ? ramp("ocean", (k - 1) / 199) : ramp("land", (k - 200) / 55);
+    else c = ramp(cmap, (k - 1) / 254);
+    lut.set([...c, 255], k * 4);
+  }
+  return lut;
+}
+
+// ---------- state ----------
+const M = { layers: [], stacks: {} };
+const S = { layer: 0, depth: 0, frame: 0, playing: false, cur: null, req: 0 };
+const view = { cx: 0, cy: 0, z: 1 };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = id => document.getElementById(id);
+const mapC = $("map"), flowC = $("flow"), wrap = $("mapWrap");
+const mctx = mapC.getContext("2d"), fctx = flowC.getContext("2d");
+const img = document.createElement("canvas"), ictx = img.getContext("2d");
+const scratch = document.createElement("canvas"), sctx = scratch.getContext("2d", { willReadFrequently: true });
+let W = 0, H = 0, DPR = 1;
+$("flowOn").checked = !reduced;
+
+// ---------- data loading ----------
+const atlases = new Map(), frames = new Map();
+function atlas(file) {
+  if (!atlases.has(file)) {
+    atlases.set(file, fetch("data/" + file).then(r => { if (!r.ok) throw new Error(file + ": " + r.status); return r.blob(); })
+      .then(b => createImageBitmap(b, { colorSpaceConversion: "none", premultiplyAlpha: "none" }).catch(() => createImageBitmap(b))));
+  }
+  return atlases.get(file);
+}
+async function frameData(sid, i) {
+  const key = sid + "|" + i;
+  if (frames.has(key)) return frames.get(key);
+  const st = M.stacks[sid], fr = st.frames[i];
+  const bmp = await atlas(fr.file);
+  scratch.width = st.w; scratch.height = st.h;
+  sctx.drawImage(bmp, fr.x, fr.y, st.w, st.h, 0, 0, st.w, st.h);
+  const px = sctx.getImageData(0, 0, st.w, st.h).data, k = new Uint8Array(st.w * st.h);
+  for (let j = 0; j < k.length; j++) k[j] = px[j * 4];
+  if (frames.size > 400) frames.delete(frames.keys().next().value);
+  frames.set(key, k);
+  return k;
+}
+
+const layer = () => M.layers[S.layer];
+const depth = () => layer().depths[S.depth];
+const mainStack = () => M.stacks[depth().stack || depth().u];
+
+// ---------- building a frame image ----------
+async function update() {
+  const L = layer(), D = depth(), st = mainStack(), token = ++S.req;
+  const slow = setTimeout(() => { $("status").hidden = false; }, 150);
+  try {
+    let cur;
+    if (L.kind === "vector") {
+      const [ku, kv] = await Promise.all([frameData(D.u, S.frame), frameData(D.v, S.frame)]);
+      const eu = M.stacks[D.u].enc, ev = M.stacks[D.v].enc, n = ku.length;
+      const u = new Float32Array(n), v = new Float32Array(n), du = new Float32Array(256), dv = new Float32Array(256);
+      for (let k = 0; k < 256; k++) { du[k] = decode(k, eu); dv[k] = decode(k, ev); }
+      for (let j = 0; j < n; j++) { u[j] = du[ku[j]]; v[j] = dv[kv[j]]; }
+      cur = { L, w: st.w, h: st.h, u, v };
+    } else {
+      const k = await frameData(D.stack, S.frame);
+      cur = { L, w: st.w, h: st.h, k, enc: st.enc };
+    }
+    if (token !== S.req) return;
+    paint(cur);
+    S.cur = cur;
+    if (!$("tip").hidden && lastPt) showTip(...lastPt);
+    draw(); resetFlow(); showInfo();
+    if (S.playing) prefetch();
+  } catch (err) {
+    console.error(err);
+    $("status").textContent = "Could not load this frame. Reload the page to try again.";
+    $("status").hidden = false;
+    return;
+  } finally { clearTimeout(slow); }
+  $("status").hidden = true;
+  $("status").textContent = "Loading…";
+}
+function prefetch() {
+  const n = mainStack().frames.length, D = depth(), nx = (S.frame + 1) % n;
+  for (const sid of [D.stack, D.u, D.v]) if (sid) frameData(sid, nx).catch(() => {});
+}
+
+function paint(cur) {
+  const { w, h, L } = cur, out = new ImageData(w, h), px = out.data;
+  img.width = w; img.height = h;
+  if (L.kind === "vector") {
+    const lut = lutFor("speed");
+    for (let j = 0; j < w * h; j++) {
+      const s = Math.hypot(cur.u[j], cur.v[j]);
+      if (!Number.isFinite(s)) continue;
+      const kk = 1 + Math.round(Math.min(Math.sqrt(s / SPEED_MAX), 1) * 254);
+      px.set(lut.subarray(kk * 4, kk * 4 + 4), j * 4);
+    }
+  } else {
+    const lut = lutFor(L.cmap), k = cur.k;
+    for (let j = 0; j < w * h; j++) { const o = k[j] * 4; px[j * 4] = lut[o]; px[j * 4 + 1] = lut[o + 1]; px[j * 4 + 2] = lut[o + 2]; px[j * 4 + 3] = lut[o + 3]; }
+    if (L.cmap === "relief") hillshade(cur, px);
+  }
+  ictx.putImageData(out, 0, 0);
+}
+function hillshade(cur, px) { // light from the north-west, slopes exaggerated so seamounts and ridges read
+  const { w, h, k, enc } = cur, dec = new Float32Array(256);
+  for (let i = 0; i < 256; i++) dec[i] = decode(i, enc);
+  const cell = 111320 * 180 / h, L = [-0.5, 0.5, 0.707], ex = 18;
+  for (let r = 1; r < h - 1; r++) {
+    const cosl = Math.max(Math.cos((90 - (r + 0.5) * 180 / h) * Math.PI / 180), 0.05);
+    for (let c = 0; c < w; c++) {
+      const j = r * w + c, l = r * w + (c - 1 + w) % w, rt = r * w + (c + 1) % w;
+      const sx = (dec[k[rt]] - dec[k[l]]) / (2 * cell * cosl) * ex;
+      const sy = (dec[k[j - w]] - dec[k[j + w]]) / (2 * cell) * ex;
+      const nz = 1 / Math.hypot(sx, sy, 1);
+      const shade = (-sx * L[0] - sy * L[1] + L[2]) * nz;
+      const f = 0.45 + 0.75 * Math.max(shade, 0);
+      for (let q = 0; q < 3; q++) px[j * 4 + q] = Math.min(255, px[j * 4 + q] * f);
+    }
+  }
+}
+
+// ---------- map drawing ----------
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  W = wrap.clientWidth; H = wrap.clientHeight;
+  for (const c of [mapC, flowC]) { c.width = Math.round(W * DPR); c.height = Math.round(H * DPR); }
+  clampView(); draw(); resetFlow();
+}
+const zMin = () => Math.max(W / 360, H / 180);
+function clampView() {
+  view.z = Math.min(Math.max(view.z, zMin()), zMin() * 40);
+  const half = H / 2 / view.z;
+  view.cy = Math.min(Math.max(view.cy, -90 + half), 90 - half);
+  view.cx = ((view.cx + 180) % 360 + 360) % 360 - 180;
+}
+const toScreen = (lon, lat) => [W / 2 + (lon - view.cx) * view.z, H / 2 - (lat - view.cy) * view.z];
+const toGeo = (x, y) => [view.cx + (x - W / 2) / view.z, view.cy - (y - H / 2) / view.z];
+function draw() {
+  const ctx = mctx;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.fillStyle = css("--land"); ctx.fillRect(0, 0, W, H);
+  if (!S.cur) return;
+  const z = view.z, [x0, y0] = toScreen(-180, 90), span = 360 * z;
+  ctx.imageSmoothingEnabled = false;
+  for (let i = Math.floor(-x0 / span); x0 + i * span < W; i++) ctx.drawImage(img, x0 + i * span, y0, span, 180 * z);
+  // graticule every 30 degrees (equator a little stronger)
+  ctx.strokeStyle = css("--grat"); ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let lat = -60; lat <= 60; lat += 30) { const y = Math.round(toScreen(0, lat)[1]) + 0.5; ctx.moveTo(0, y); ctx.lineTo(W, y); if (lat === 0) { ctx.moveTo(0, y + 1); ctx.lineTo(W, y + 1); } }
+  const [lw] = toGeo(0, 0);
+  for (let lon = Math.ceil(lw / 30) * 30; ; lon += 30) { const x = Math.round(toScreen(lon, 0)[0]) + 0.5; if (x > W) break; ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+  ctx.stroke();
+  if (S.cur.L.kind === "vector" && !$("flowOn").checked) drawArrows();
+}
+function sample(lon, lat) {
+  const c = S.cur; if (!c || lat > 90 || lat < -90) return -1;
+  lon = ((lon + 180) % 360 + 360) % 360;
+  const col = Math.min(Math.floor(lon / 360 * c.w), c.w - 1), row = Math.min(Math.floor((90 - lat) / 180 * c.h), c.h - 1);
+  return row * c.w + col;
+}
+function drawArrows() {
+  const ctx = mctx, step = 26, c = S.cur;
+  ctx.strokeStyle = "rgba(255,255,255,0.75)"; ctx.lineWidth = 1.2; ctx.beginPath();
+  for (let y = step / 2; y < H; y += step) for (let x = step / 2; x < W; x += step) {
+    const j = sample(...toGeo(x, y)); if (j < 0) continue;
+    const u = c.u[j], v = c.v[j], s = Math.hypot(u, v); if (!(s > 0.005)) continue;
+    const len = 4 + 10 * Math.min(Math.sqrt(s / 1), 1), dx = u / s * len, dy = -v / s * len;
+    ctx.moveTo(x - dx / 2, y - dy / 2); ctx.lineTo(x + dx / 2, y + dy / 2);
+    const a = Math.atan2(dy, dx), hx = x + dx / 2, hy = y + dy / 2;
+    ctx.lineTo(hx - 4 * Math.cos(a - 0.5), hy - 4 * Math.sin(a - 0.5)); ctx.moveTo(hx, hy); ctx.lineTo(hx - 4 * Math.cos(a + 0.5), hy - 4 * Math.sin(a + 0.5));
+  }
+  ctx.stroke();
+}
+
+// ---------- current particles ----------
+let parts = [];
+function resetFlow() {
+  fctx.setTransform(DPR, 0, 0, DPR, 0, 0); fctx.clearRect(0, 0, W, H);
+  const n = Math.min(4500, Math.round(W * H / 260));
+  parts = Array.from({ length: n }, () => spawn({}));
+}
+function spawn(p) { p.x = Math.random() * W; p.y = Math.random() * H; p.age = Math.floor(Math.random() * 90); return p; }
+function flowTick() {
+  requestAnimationFrame(flowTick);
+  const c = S.cur;
+  if (!c || c.L.kind !== "vector" || !$("flowOn").checked) return;
+  fctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  fctx.globalCompositeOperation = "destination-in"; fctx.fillStyle = "rgba(0,0,0,0.93)"; fctx.fillRect(0, 0, W, H);
+  fctx.globalCompositeOperation = "source-over";
+  fctx.strokeStyle = "rgba(255,255,255,0.85)"; fctx.lineWidth = 1.1; fctx.beginPath();
+  const k = 4.5; // screen px per frame for 1 m/s
+  for (const p of parts) {
+    const [lon, lat] = toGeo(p.x, p.y), j = sample(lon, lat);
+    const u = j >= 0 ? c.u[j] : NaN, v = j >= 0 ? c.v[j] : NaN;
+    if (!Number.isFinite(u) || ++p.age > 110 || p.x < 0 || p.x > W || p.y < 0 || p.y > H) { spawn(p); p.age = 0; continue; }
+    const nx = p.x + u * k / Math.max(Math.cos(lat * Math.PI / 180), 0.2), ny = p.y - v * k;
+    fctx.moveTo(p.x, p.y); fctx.lineTo(nx, ny); p.x = nx; p.y = ny;
+  }
+  fctx.stroke();
+}
+
+// ---------- hover readout ----------
+function fmt(v, L) {
+  if (L.cmap === "mapped") return Math.round(v * 100) + "% measured";
+  if (L.cmap === "relief") return (v < 0 ? Math.round(-v).toLocaleString() + " m deep" : Math.round(v).toLocaleString() + " m above sea level");
+  if (L.cmap === "diff") return Math.abs(v) < 1 ? "Agree (within 1 m)" : `GEBCO ${Math.round(Math.abs(v)).toLocaleString()} m ${v > 0 ? "higher" : "lower"}`;
+  if (L.cmap === "algae") return (v < 1 ? v.toPrecision(2) : v.toFixed(1)) + " " + L.units;
+  const d = L.cmap === "haline" ? 2 : L.cmap === "oxygen" ? 0 : 1;
+  return v.toFixed(d) + (L.units ? " " + L.units : "");
+}
+const compass = deg => ["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(((deg % 360) + 360) % 360 / 45) % 8];
+function fmtLL(lon, lat) {
+  lon = ((lon + 180) % 360 + 360) % 360 - 180;
+  return `${Math.abs(lat).toFixed(2)}°${lat >= 0 ? "N" : "S"}  ${Math.abs(lon).toFixed(2)}°${lon >= 0 ? "E" : "W"}`;
+}
+let lastPt = null;
+function showTip(x, y) {
+  const c = S.cur, tip = $("tip"); if (!c) return;
+  lastPt = [x, y];
+  const [lon, lat] = toGeo(x, y), j = sample(lon, lat), L = c.L;
+  let val;
+  if (j < 0) { tip.hidden = true; return; }
+  if (L.kind === "vector") {
+    const u = c.u[j], v = c.v[j];
+    val = Number.isFinite(u) ? `${Math.hypot(u, v).toFixed(2)} m/s toward ${compass(Math.atan2(u, v) * 180 / Math.PI)}` : "No data (land or ice)";
+  } else {
+    const k = c.k[j], v = decode(k, c.enc);
+    if (!k) val = L.cmap === "mapped" ? "Land" : L.cmap === "algae" ? "No data (land, ice or cloud)" : "No data (land or ice)";
+    else {
+      const plain = ["relief", "mapped", "diff"].includes(L.cmap);
+      val = (k === 1 && !plain ? "≤ " : k === 255 && !plain ? "≥ " : "") + fmt(v, L);
+      if (L.cmap === "diff" && (k === 1 || k === 255)) val = val.replace(" m ", "+ m ");
+    }
+  }
+  tip.innerHTML = `<div class="v"></div><div class="c"></div>`;
+  tip.firstChild.textContent = val; tip.lastChild.textContent = fmtLL(lon, lat);
+  tip.hidden = false;
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  tip.style.left = Math.min(x + 14, W - tw - 6) + "px";
+  tip.style.top = (y + 14 + th > H ? y - th - 10 : y + 14) + "px";
+}
+
+// ---------- pan & zoom ----------
+const ptrs = new Map(); let drag = null, moved = false;
+wrap.addEventListener("pointerdown", e => {
+  if (e.target.closest("button")) return;
+  wrap.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]); moved = false;
+  drag = { x: e.offsetX, y: e.offsetY, cx: view.cx, cy: view.cy, d: pinchDist(), z: view.z };
+  wrap.classList.add("dragging");
+});
+function pinchDist() { if (ptrs.size < 2) return 0; const [a, b] = [...ptrs.values()]; return Math.hypot(a[0] - b[0], a[1] - b[1]); }
+wrap.addEventListener("pointermove", e => {
+  if (!drag) { if (e.pointerType === "mouse") showTip(e.offsetX, e.offsetY); return; }
+  ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
+  if (ptrs.size >= 2 && drag.d) { view.z = drag.z * pinchDist() / drag.d; }
+  else { view.cx = drag.cx - (e.offsetX - drag.x) / view.z; view.cy = drag.cy + (e.offsetY - drag.y) / view.z; }
+  if (Math.abs(e.offsetX - drag.x) + Math.abs(e.offsetY - drag.y) > 3) { moved = true; $("tip").hidden = true; }
+  clampView(); draw(); if (moved) resetFlow();
+});
+function endDrag(e) {
+  ptrs.delete(e.pointerId);
+  if (ptrs.size === 0) { if (!moved) showTip(e.offsetX, e.offsetY); drag = null; wrap.classList.remove("dragging"); }
+  else { const [p] = [...ptrs.values()]; drag = { x: p[0], y: p[1], cx: view.cx, cy: view.cy, d: 0, z: view.z }; }
+}
+wrap.addEventListener("pointerup", endDrag);
+wrap.addEventListener("pointercancel", endDrag);
+wrap.addEventListener("pointerleave", e => { if (!drag) $("tip").hidden = true; });
+wrap.addEventListener("wheel", e => { e.preventDefault(); zoomAt(e.offsetX, e.offsetY, Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
+function zoomAt(x, y, f) {
+  const [lon, lat] = toGeo(x, y);
+  view.z *= f; clampView();
+  view.cx = lon - (x - W / 2) / view.z; view.cy = lat + (y - H / 2) / view.z;
+  clampView(); draw(); resetFlow(); $("tip").hidden = true;
+}
+$("zin").onclick = () => zoomAt(W / 2, H / 2, 1.6);
+$("zout").onclick = () => zoomAt(W / 2, H / 2, 1 / 1.6);
+$("zreset").onclick = () => { view.z = 0; view.cx = 0; view.cy = 0; clampView(); draw(); resetFlow(); $("tip").hidden = true; };
+
+// ---------- controls ----------
+function buildSidebar() {
+  const side = $("sidebar"); side.textContent = "";
+  const groups = [...new Set(M.layers.map(l => l.group))];
+  for (const g of groups) {
+    const sec = document.createElement("section"); sec.className = "group";
+    sec.innerHTML = `<h2></h2><div class="layers"></div>`; sec.firstChild.textContent = g;
+    M.layers.forEach((L, i) => {
+      if (L.group !== g) return;
+      const b = document.createElement("button"); b.className = "layer-btn"; b.dataset.i = i;
+      b.innerHTML = `<span class="t"></span><span class="r"></span><span class="s"></span>`;
+      b.children[0].textContent = L.title; b.children[1].textContent = L.res.split(" ")[0];
+      b.children[2].textContent = L.source.split(" · ")[1] || L.source;
+      b.onclick = () => selectLayer(i);
+      sec.lastChild.appendChild(b);
+    });
+    side.appendChild(sec);
+  }
+  const about = document.createElement("section"); about.className = "about"; about.id = "about";
+  side.appendChild(about);
+}
+function showInfo() {
+  const L = layer();
+  document.querySelectorAll(".layer-btn").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === S.layer)));
+  const a = $("about");
+  a.innerHTML = `<h3></h3><dl><dt>Source</dt><dd></dd><dt>Grid</dt><dd></dd><dt>Covers</dt><dd></dd><dt>Accuracy</dt><dd></dd></dl><p class="note" hidden></p>`;
+  a.querySelector("h3").textContent = L.title;
+  const dd = a.querySelectorAll("dd");
+  [L.source, L.res, L.period, L.accuracy].forEach((t, i) => dd[i].textContent = t);
+  const note = a.querySelector(".note");
+  const n = mainStack().frames.length;
+  if (L.time === "climatology") { note.hidden = false; note.textContent = "These are long-term averages, not a particular year: “January” means a typical January."; }
+  if (L.source.includes("GLORYS") && n < 24) { note.hidden = false; note.textContent = `${n} month${n === 1 ? "" : "s"} loaded so far. The rest of the 24-month window (to 2026-08) is added when its download finishes.`; }
+  if (L.source.includes("World Ocean Atlas") && depth().label.replace(/\D/g, "") > 1500) { note.hidden = false; note.textContent = "Below 1,500 m only the annual" + (L.id === "woa_o" ? "" : " and seasonal") + " average" + (L.id === "woa_o" ? " exists" : "s exist") + "."; }
+}
+function buildDepths() {
+  const L = layer(), box = $("depths"); box.textContent = "";
+  $("depthBox").hidden = L.depths.length < 2;
+  L.depths.forEach((d, i) => {
+    const b = document.createElement("button"); b.className = "chip"; b.textContent = d.label;
+    b.setAttribute("aria-pressed", String(i === S.depth));
+    b.onclick = () => selectDepth(i); box.appendChild(b);
+  });
+  $("depthOut").textContent = L.depths[S.depth].label;
+}
+function buildTime() {
+  const L = layer(), st = mainStack(), n = st.frames.length;
+  $("timeBox").hidden = n < 2;
+  $("time").max = n - 1; $("time").value = S.frame;
+  $("timeTitle").textContent = L.time === "climatology" ? "Average for" : "Date";
+  $("timeOut").textContent = st.frames[S.frame].label;
+  $("play").hidden = L.time !== "dates";
+  if (n < 2 && S.playing) togglePlay();
+}
+function buildLegend() {
+  const L = layer(), st = mainStack();
+  const c = $("legend"), ctx = c.getContext("2d"), id = ctx.createImageData(512, 1);
+  const lut = lutFor(L.kind === "vector" ? "speed" : L.cmap);
+  for (let x = 0; x < 512; x++) { const k = 1 + Math.round(x / 511 * 254); id.data.set(lut.subarray(k * 4, k * 4 + 4), x * 4); }
+  ctx.putImageData(id, 0, 0);
+  const enc = L.kind === "vector" ? { type: "speed" } : st.enc;
+  const ticks = TICKS[L.kind === "vector" ? "speed" : L.cmap], tk = $("ticks"); tk.textContent = "";
+  ticks.forEach((v, i) => {
+    const s = document.createElement("span"), p = legendPos(v, enc);
+    s.textContent = L.cmap === "diff" ? (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v) : L.cmap === "mapped" ? Math.round(v * 100) + "%" : L.cmap === "relief" ? (v === 0 ? "0" : (v / 1000).toLocaleString() + "k") : String(v);
+    s.style.left = (p * 100) + "%";
+    if (i === 0 && p < 0.04) s.className = "first"; if (i === ticks.length - 1 && p > 0.96) s.className = "last";
+    tk.appendChild(s);
+  });
+  const unit = L.kind === "vector" ? "Current speed, m/s" : L.cmap === "diff" ? "GEBCO minus ETOPO, m" : L.cmap === "relief" ? "Elevation, m" : L.cmap === "mapped" ? "Seafloor measured directly" : L.cmap === "haline" ? "Salinity (practical scale, no unit)" : `${L.title}, ${L.units}`;
+  $("legendTitle").textContent = unit;
+  $("flowToggle").hidden = L.kind !== "vector";
+}
+function selectLayer(i) {
+  const prevDepth = S.cur ? depth().label : null;
+  S.layer = i;
+  const L = layer(), di = L.depths.findIndex(d => d.label === prevDepth);
+  S.depth = di >= 0 ? di : 0;
+  if (L.time !== "dates" && S.playing) togglePlay();
+  matchFrameByLabel(null);
+  buildDepths(); buildTime(); buildLegend(); showInfo(); update();
+  try { localStorage.setItem("oda-layer", L.id); } catch (_) {}
+}
+function matchFrameByLabel(label) {
+  const fr = mainStack().frames;
+  if (label) { const j = fr.findIndex(f => f.label === label); S.frame = j >= 0 ? j : 0; }
+  S.frame = Math.min(Math.max(S.frame, 0), fr.length - 1);
+}
+function selectDepth(i) {
+  const label = mainStack().frames[S.frame]?.label;
+  S.depth = i; matchFrameByLabel(label);
+  buildDepths(); buildTime(); update();
+}
+$("time").addEventListener("input", e => { S.frame = +e.target.value; $("timeOut").textContent = mainStack().frames[S.frame].label; update(); });
+let timer = null;
+function togglePlay() {
+  S.playing = !S.playing;
+  $("play").setAttribute("aria-label", S.playing ? "Pause" : "Play");
+  $("playIcon").innerHTML = S.playing ? '<path d="M2 1h3v10H2zM7 1h3v10H7z"/>' : '<path d="M2 1l9 5-9 5z"/>';
+  clearInterval(timer);
+  if (S.playing) timer = setInterval(() => {
+    const n = mainStack().frames.length; S.frame = (S.frame + 1) % n;
+    $("time").value = S.frame; $("timeOut").textContent = mainStack().frames[S.frame].label; update();
+  }, layer().time === "dates" && mainStack().frames.length > 60 ? 220 : 650);
+}
+$("play").onclick = togglePlay;
+$("flowOn").onchange = () => { resetFlow(); draw(); };
+
+// redraw when the theme changes (land and grid colours come from tokens)
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+new ResizeObserver(resize).observe(wrap);
+
+// ---------- start ----------
+fetch("data/manifest.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(m => {
+  Object.assign(M, m);
+  $("built").textContent = `${m.layers.length} layers · built ${m.built} from the files in data/raw`;
+  buildSidebar();
+  let start = 0;
+  try { const id = localStorage.getItem("oda-layer"); const j = M.layers.findIndex(l => l.id === id); if (j >= 0) start = j; } catch (_) {}
+  resize();
+  selectLayer(start);
+  requestAnimationFrame(flowTick);
+}).catch(err => {
+  console.error(err);
+  $("built").textContent = "";
+  wrap.innerHTML = `<p class="err">The map data didn’t load. Run <code>scripts/build_viz.py</code> to create viz/web/data, then reload.</p>`;
+});
+</script>
